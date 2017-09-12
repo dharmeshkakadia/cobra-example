@@ -22,3 +22,4 @@ deploy:
   - cobra-example.linux.amd64
   on:
     repo: dharmeshkakadia/cobra-example
+    tags: true
