@@ -1,0 +1,24 @@
+language: go
+
+before_install:
+- go get github.com/mitchellh/gox
+
+script:
+- go get -t -v ./...
+- diff -u <(echo -n) <(gofmt -d .)
+- go vet $(go list ./... | grep -v /vendor/)
+- go test -v -race ./...
+- ox -os="linux darwin windows" -arch="amd64" -output="logshare.{{.OS}}.{{.Arch}}"
+  -verbose ./...
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: F0jD3uT4Byf5m5XTT4WKxB5I/Y2rCgm0PiicVrv76sCsbHWZZB4yN0QmXSM5S6uNMDmxHw8xpLzJSFdF5EcME1pim8OVgOOfrCSKNpOEeCLm9bNO0+xxmJeL8e5S6AtokIkfTfg1uEJg+Q4fvKkNH7GoqfXmVzDOjSP9hZKSuS2DxNNanqekhez3BR6Z2lUTQqM87XP20//R7vLUS+Yf4PyHGwPHhEy1hcyCx+EHqtksAnVhsyWZTpwUWQAIJrTFUcw+TwqcM26SAY9sv3KP4qOHed8trjPZgfbwtojWoHn+13g8OTrS9NA69euG+ojuI8m9PBUmOR3pMwCiBgAzLK4VkjL1YCM3Z8afyYymy1BYpUopNqU7Htcw7MJfM4hBZg2kt+qT7KCkSeRZ10e+lkCzAOdJwJIkS+7tWW/IF3+i3rezHWnS2fmu7jBeCfHhbHYJ46GILLR0bIsSAyw9Met6E6aCvFDRlJxidDfALuRNJqeQSR5BoK7lrqeMqfM2VraS48uZqLzcNOh6QE2zwIJ5wvtH6cPQpNGcC1wDZHLZ2oKilgJ5h+QokVkbFQOxNQR2ZQTJPktA8b+5AfHWv5FLHiAfWkYvTQV2KExRUYX1egcsBsTGhNLhdCvYM++tEQNV6VO7qseqHB0vnqwpHovfDw2EMxtsi7oHsxv5YOk=
+  file: 
+  - cobra-example.windows.amd64.exe
+  - cobra-example.darwin.amd64
+  - cobra-example.linux.amd64
+  on:
+    repo: dharmeshkakadia/cobra-example
