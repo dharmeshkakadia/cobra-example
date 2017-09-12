@@ -2,6 +2,7 @@ language: go
 
 before_install:
 - go get github.com/mitchellh/gox
+- go get github.com/inconshreveable/mousetrap
 
 script:
 - go get -t -v ./...
