@@ -8,8 +8,7 @@ script:
 - diff -u <(echo -n) <(gofmt -d .)
 - go vet $(go list ./... | grep -v /vendor/)
 - go test -v -race ./...
-- ox -os="linux darwin windows" -arch="amd64" -output="logshare.{{.OS}}.{{.Arch}}"
-  -verbose ./...
+- gox -os="linux darwin windows" -arch="amd64" -output="cobra-example.{{.OS}}.{{.Arch}}" -verbose ./...
 
 deploy:
   provider: releases
